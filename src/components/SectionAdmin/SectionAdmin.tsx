@@ -13,9 +13,9 @@ export function SectionAdmin ({ children, title }: SectionAdminProps) {
     return <>
         <div className={styles.container}>
             <div className={styles.head} onClick={toggleOpen}>
-                <img src="../Admin/circle-icon.svg" alt="иконка круга" className={styles.icon}/>
+                <img src="../../../Admin/circle-icon.svg" alt="иконка круга" className={styles.icon}/>
                 <Headling appearence = 'admin' className={styles.title} >{title}</Headling>
-                <img src="../Admin/check_mark-icon.svg" alt="кнопка открытия выпадающего окна" className={cn(styles['check-mark'],
+                <img src="../../../Admin/check_mark-icon.svg" alt="кнопка открытия выпадающего окна" className={cn(styles['check-mark'],
                     {[styles['check-mark-rotate']]: isOpen
                     })} />
             </div>

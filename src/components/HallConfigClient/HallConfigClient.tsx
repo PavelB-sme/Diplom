@@ -142,7 +142,7 @@ export function HallConfigClient () {
             </div>
                 
             <div className={styles.hall}>
-                <img src="../../../Client/screen.png" alt="картинка экрана" className={styles.screen}/>
+                <img src="public\Client\screen.png" alt="картинка экрана" className={styles.screen}/>
                 {hallsLoading || !dataHall?.result ? (
                     <div className={styles.loading}>Загрузка схемы зала...</div>
                 ) : hallsError ? (

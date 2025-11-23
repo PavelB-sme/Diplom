@@ -14,61 +14,62 @@ import { HallClient } from './pages/HallClient/HallClient.tsx';
 import { PaymentClient } from './pages/PaymentClient/PaymentClient.tsx';
 import { TicketClient } from './pages/TicketClient/TicketClient.tsx';
 import { NavigationProvider } from './context/NavigationProvider.tsx';
+import { App } from './App.tsx';
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <ClientLayout />,
-    children: [
-      {
-        path: '/',
-        element: <MainClient />
-      },
-      {
-        path: 'hallconfig',
-        element: <HallClient />
-      },
-      {
-        path: 'payment',
-        element: <PaymentClient />
-      },
-      {
-        path: 'ticket',
-        element: <TicketClient />
-      }
-    ]
-  },
-  {
-    path: '/admin',
-    element: <AdminLayout />,
-    children: [
-      {
-        path: 'login',
-        element: <AuthAdmin />
-      },
-      {
-        path: 'cabinet',
-        element: <Admin />
-      }
-    ]
-  },
-  {
-    path: '*',
-    element: <Error />
-  }], 
-  {
-    basename: '/Diplom',
-  }
+	{
+	path: '/',
+	element: <ClientLayout />,
+	children: [
+		{
+			path: '/',
+			element: <MainClient />
+		},
+		{
+			path: 'hallconfig',
+			element: <HallClient />
+		},
+		{
+			path: 'payment',
+			element: <PaymentClient />
+		},
+		{
+			path: 'ticket',
+			element: <TicketClient />
+		}
+	]
+	},
+	{
+	path: '/admin',
+	element: <AdminLayout />,
+	children: [
+		{
+			path: 'login',
+			element: <AuthAdmin />
+		},
+		{
+			path: 'cabinet',
+			element: <Admin />
+		}
+	]
+		},
+		{
+		path: '*',
+		element: <Error />
+		}], 
+	{
+		basename: '/Diplom',
+	}
 )
 
-
-
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <NavigationProvider>
-      <Provider store={store}>
-        <RouterProvider router={router}/>
-      </Provider>
-    </NavigationProvider>      
-  </StrictMode>,
+	<StrictMode>
+		<Provider store={store}>
+			<App>
+				<NavigationProvider>
+					<RouterProvider router={router}/>
+				</NavigationProvider>
+			</App>
+		</Provider>      
+	</StrictMode>,
 )

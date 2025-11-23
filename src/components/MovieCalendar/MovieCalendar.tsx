@@ -8,12 +8,13 @@ import type { DateItem } from "../../interfaces/date.types";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useEffect } from "react";
 
 export function MovieCalendar () {
     
     const [searchParams] = useSearchParams();
     const activeSeance = searchParams.get('seance');
-    const { setNavigationData} = useNavigation();
+    const { setNavigationData, navigationData } = useNavigation();
 
     const getSeanceDate = () => {
         const today = startOfToday();
@@ -34,7 +35,17 @@ export function MovieCalendar () {
         }))
     }
 
-    const dates = getSeanceDate();    
+    const dates = getSeanceDate();
+    
+    useEffect(() => {
+        if (dates.length > 0 && !navigationData.date) {
+            const firstDate = dates[0];
+            setNavigationData(prev => ({
+                ...prev,
+                date: firstDate.id           
+            }));
+        }
+    }, [dates, navigationData.date, setNavigationData]);
 
     const sliderSettings = {
         dots: false,
@@ -80,14 +91,10 @@ export function MovieCalendar () {
         ]
     }
 
-
-
-
     const dateActiveClick = (date: DateItem) => {
         setNavigationData(prev => ({
             ...prev,
-            date: date.id
-            
+            date: date.id           
         }));
     }
 
@@ -96,13 +103,17 @@ export function MovieCalendar () {
                     <Slider {...sliderSettings}>
                     
             {dates.map((date) => {
+                const isActive = activeSeance === date.id || 
+                        (!activeSeance && dates[0]?.id === date.id);
+
                 if(date.isToday) {
                         return  (
                             <div key={date.id} className={styles.slide}>
                                 <NavLink 
                                     key={date.id}
                                     to={`?seance=${date.id}`}
-                                    className={`${styles.date} ${activeSeance === date.id ? styles['date-active'] : ''}`}onClick={() => dateActiveClick(date)}>   
+                                    className={`${styles.date} ${isActive ? styles['date-active'] : ''}`}
+                                    onClick={() => dateActiveClick(date)}>   
                                         <div >Сегодня</div>
                                         <div>{date.shortWeekDay},{date.shortLabel}</div>   
                                 </NavLink>
@@ -112,7 +123,7 @@ export function MovieCalendar () {
                     <NavLink 
                             key={date.id}
                             to={`?seance=${date.id}`}
-                            className={`${styles.date} ${activeSeance === date.id ? styles['date-active'] : date.isWeekend ? styles.weekend : ''}`}
+                            className={`${styles.date} ${isActive ? styles['date-active'] : date.isWeekend ? styles.weekend : ''}`}
                             onClick={() => dateActiveClick(date)}>
                             
                                 <div>{date.shortWeekDay},</div>
@@ -123,12 +134,9 @@ export function MovieCalendar () {
             }
             
                 </Slider>    
-        </nav>
-                    
-            
-        {activeSeance && <div>
+        </nav>            
+        <div>
             <Seances />
-        </div>}
-    </div>
-        
+        </div>
+    </div>       
 }

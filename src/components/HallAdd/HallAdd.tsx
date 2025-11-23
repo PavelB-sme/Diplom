@@ -1,22 +1,17 @@
-import { useEffect, useState } from "react";
-import Button from "../Button/Button";
+import { useState } from 'react';
+import Button from '../Button/Button';
 import styles from './HallAdd.module.css'
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch } from '../../store/store';
 import { fetchAllData } from '../../store/allDataSlice.slice';
 import { deleteHall } from "../../store/hallOperationsSlice.slice";
-import { PopupCreateHall } from "../Popup/PopupCreateHall";
+import { PopupCreateHall } from '../Popup/PopupCreateHall';
+import { useAppData } from '../../hooks/useAppData';
 
 export function HallAdd () {
+    const { halls } = useAppData();
     const dispatch = useAppDispatch();
     const [showPopup, setShowPopup] = useState(false);
-    const { data } = useAppSelector(state => state.allData);
 
-    const halls = data?.result.halls || [];
-    useEffect (() => {
-        dispatch(fetchAllData());        
-    }, [dispatch]);
-
-    
     const delHall = async (id: number) => {
         try {
             await dispatch(deleteHall(id)).unwrap();

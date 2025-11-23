@@ -1,10 +1,11 @@
-import { useState, type FormEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { useEffect, useState, type FormEvent } from 'react';
+import { useAppDispatch } from '../../store/store';
 import styles from './OpenSales.module.css';
 import cn from 'classnames'
 import Button from '../Button/Button';
 import { openHall } from '../../store/hallOperationsSlice.slice';
 import { useNavigate } from 'react-router-dom';
+import { useAppData } from '../../hooks/useAppData';
 
 export function OpenSales () {
     const [selectHall, setSelectHall] = useState<number>(0);
@@ -12,10 +13,15 @@ export function OpenSales () {
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { data, loading: hallsLoading, error: hallsError } = useAppSelector(state => state.allData);
-    const halls = data?.result.halls || [];
+    const { halls, loading: hallsLoading, error: hallsError } = useAppData();
     const selectedHallData = halls.find(hall => hall.id === selectHall);
     const currentStatus = selectedHallData?.hall_open || 0;
+
+    useEffect(() => {
+        if (halls?.length > 0 && !selectHall) {
+            setSelectHall(halls[0].id);
+        }
+    }, [halls, selectHall]);
 
     const submit = async(e: FormEvent) => {
         e.preventDefault();

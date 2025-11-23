@@ -1,22 +1,12 @@
-import { useEffect } from 'react';
-import { fetchAllData } from '../../store/allDataSlice.slice';
-import { useAppDispatch, useAppSelector } from '../../store/store';
 import styles from './Seances.module.css'
 import { NavLink } from 'react-router-dom';
 import { useNavigation } from '../../hooks/useNavigation';
+import { useAppData } from '../../hooks/useAppData';
 
 
 export function Seances () {
-    const dispatch = useAppDispatch();
-    const { data } = useAppSelector(state => state.allData);
-    const { navigationData, setNavigationData} = useNavigation()
-    const films = data?.result.films || [];
-    const seances = data?.result.seances || [];
-    const halls = data?.result.halls || [];
-    
-    useEffect(() => {
-        dispatch(fetchAllData());
-    }, [dispatch]);
+    const { films, seances, halls } = useAppData();
+    const { navigationData, setNavigationData} = useNavigation();
 
     interface FilmSchedule {
         film: typeof films[0];   
@@ -51,21 +41,14 @@ export function Seances () {
                     };
                         }).filter(item => item.seances.length > 0);
 
-    const handleHallClickSeance  = (seance: typeof seances[0], film: typeof films[0], event: React.MouseEvent) => {
-        event.preventDefault();
+    const handleHallClickSeance  = (seance: typeof seances[0], film: typeof films[0]) => {
 
         setNavigationData(prev => ({
             ...prev,
             seance: seance,
             film: film,
         }))
-
-        setTimeout(() => {
-        if (navigationData.date) {
-            window.location.href = `/hallconfig?seanceId=${seance.id}&date=${navigationData.date}`;
-        }
-    }, 100);
-    }
+    };
 
     return <div className={styles.container}>
         {schedule.map(({ film, seances }) => (
@@ -101,7 +84,7 @@ export function Seances () {
                                             ? `/hallconfig?seanceId=${seance.id}&date=${navigationData.date}`
                                             : '/'} key={seance.id} 
                                             className={styles['seance-time']}
-                                        onClick={(e) => handleHallClickSeance(seance, film, e)}
+                                        onClick={() => handleHallClickSeance(seance, film)}
                                         >
                                             {seance.seance_time}
                                         </NavLink>

@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { fetchAllData } from '../../store/allDataSlice.slice';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { useAppDispatch } from '../../store/store';
 import Button from '../Button/Button';
 import styles from './SeancesGrid.module.css';
 import { PopupAddFilm } from '../Popup/PopupAddFilm';
@@ -16,6 +16,7 @@ import { HallWithBasket } from '../Drag&Drop/HallWithBasket/HallWithBasket';
 import { PopupDeleteSeance } from '../Popup/PopupDeleteSeance';
 import type { Seance } from '../../interfaces/Seance.interface';
 import { addSeance } from '../../store/seanceOperationsSlice.slice';
+import { useAppData } from '../../hooks/useAppData';
 
 export function SeancesGrid() {
     const [showFilmPopup, setShowFilmPopup] = useState(false);
@@ -29,16 +30,9 @@ export function SeancesGrid() {
     const [error, setError] = useState<string | null>(null);
 
     const dispatch = useAppDispatch();
-    const { data } = useAppSelector(state => state.allData);
-    const halls = data?.result.halls || [];
-    const films = data?.result.films || [];
-    const seances = data?.result.seances || [];
+    const { halls, films, seances, refreshData } = useAppData();
 
     const allSeances = [...seances, ...localSeances];
-
-    useEffect(() => {
-        dispatch(fetchAllData());
-    }, [dispatch]);
 
     const cancel = () => {
         setLocalSeances([]);
@@ -59,7 +53,7 @@ export function SeancesGrid() {
     setIsSaving(true);
     
     try {
-        const results = await Promise.all(
+        await Promise.all(
             localSeances.map(seance => 
                 dispatch(addSeance({
                     seanceHallid: seance.seance_hallid,
@@ -69,26 +63,8 @@ export function SeancesGrid() {
             )
         );
 
-        const successfulSeances: Seance[] = [];
-        const failedSeances: { seance: Seance; error: string; }[] = [];
-
-        results.forEach((result, index) => {
-            if (result.success) {
-                successfulSeances.push(localSeances[index]);
-            } else {
-                failedSeances.push({
-                    seance: localSeances[index],
-                    error: result.error
-                });
-                setError(`Ошибка сохранения сеанса: ${result.error}`);
-            }
-        });
-
-        if (failedSeances.length === 0) {
-            console.log('Все сеансы успешно сохранены');
-            dispatch(fetchAllData());
-        } 
-        dispatch(fetchAllData());
+        setLocalSeances([]);
+        await refreshData();
     } catch (error) {
         console.error('Сетевая ошибка при сохранении сеансов:', error);
     } finally {

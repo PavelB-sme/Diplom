@@ -24,7 +24,7 @@ export const fetchHallConfig = createAsyncThunk(
     'hall/hallCongigClient',
     async ({ seanceId, date }: { seanceId: number; date: string }) => {
         const response = await hallApi.getConfigHall({seanceId, date});
-        return response
+        return response;
     }
 )
 

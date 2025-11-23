@@ -1,11 +1,11 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { useAppDispatch } from '../../store/store';
 import styles from './PriceConfig.module.css';
 import cn from 'classnames';
-import { fetchAllData } from '../../store/allDataSlice.slice';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { configPrice } from '../../store/hallOperationsSlice.slice';
+import { useAppData } from '../../hooks/useAppData';
 
 
 export function PriceConfig () {
@@ -15,12 +15,7 @@ export function PriceConfig () {
     const [formValue, setFormValue] = useState(() => ({priceStandart: 0, priceVip: 0}));
     
     const dispatch = useAppDispatch();
-    const { data, loading: hallsLoading, error: hallsError } = useAppSelector(state => state.allData);
-    const halls = data?.result.halls || [];
-
-    useEffect(() => {
-        dispatch(fetchAllData());
-    }, [dispatch]);
+    const { halls, loading: hallsLoading, error: hallsError } = useAppData();
 
     useEffect(() => {
         if(selectHall) {
@@ -28,18 +23,24 @@ export function PriceConfig () {
         }
     }, [selectHall])
 
+    useEffect(() => {
+        if (halls?.length > 0 && !selectHall) {
+            setSelectHall(halls[0].id);
+        }
+    }, [halls, selectHall]);
+
     const handleHallClick = (hallId: number) => {
-            setSelectHall(hallId);
+        setSelectHall(hallId);
     }
 
     const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
-            const { name, value } = e.target;
-            const numValue = parseInt(value) || 0;
-    
-            setFormValue(prev => ({
-                ...prev,
-                [name]: numValue
-            }));
+        const { name, value } = e.target;
+        const numValue = parseInt(value) || 0;
+
+        setFormValue(prev => ({
+            ...prev,
+            [name]: numValue
+        }));
     }
 
     const loadHallConfig = (hallId: number) => {
@@ -57,12 +58,6 @@ export function PriceConfig () {
         e.preventDefault();
         setLoading(true);
         setError(null);
-
-        if (!selectHall) {
-            setError('Выберите зал для конфигурации');
-            setLoading(false);
-            return;
-        }
 
         if (formValue.priceStandart <= 0 || formValue.priceVip <= 0) {
             setError('Укажите корректную цену билетов');

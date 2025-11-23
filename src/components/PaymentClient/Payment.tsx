@@ -24,7 +24,7 @@ export function Payment() {
                 <div className={styles.property}>Места:&nbsp;<span>{selectedSeatsInfo}</span></div>
                 <div className={styles.property}>В зале:&nbsp;<span>{hallName}</span></div>
                 <div className={styles.property}>Начало сеанса:&nbsp;<span>{seanceTime}</span></div>
-                <div className={styles.property}>Стоимость:&nbsp;<span>{totalCoast}</span></div>
+                {!showQR ? <div className={styles.property}>Стоимость:&nbsp;<span>{totalCoast}</span></div> : <div></div>}
             </div>
             <div className={styles.button}>
                 {!showQR ? (

@@ -1,12 +1,12 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { useAppDispatch } from '../../store/store';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
 import styles from './HallConfig.module.css';
 import cn from 'classnames';
-import { fetchAllData } from '../../store/allDataSlice.slice';
 import { configHall } from '../../store/hallOperationsSlice.slice';
 import type { SeatType } from '../../interfaces/Hall.interface';
+import { useAppData } from '../../hooks/useAppData';
 
 export function HallConfig() {
     const [error, setError] = useState<string | null>(null);
@@ -16,12 +16,7 @@ export function HallConfig() {
     const [isManualInput, setIsManualInput] = useState(false);
 
     const dispatch = useAppDispatch();
-    const { data, loading: hallsLoading, error: hallsError } = useAppSelector(state => state.allData);
-    const halls = data?.result.halls || [];
-
-    useEffect(() => {
-        dispatch(fetchAllData());
-    }, [dispatch]);
+    const { halls, loading: hallsLoading, error: hallsError } = useAppData();
 
     useEffect(() => {
         if (selectHall){
@@ -36,10 +31,15 @@ export function HallConfig() {
         generateHallConfig();
         setIsManualInput(false);
     }
-}, [formValue.rows, formValue.places, isManualInput, error]);
+    }, [formValue.rows, formValue.places, isManualInput, error]);
+
+    useEffect(() => {
+        if (halls?.length > 0 && !selectHall) {
+            setSelectHall(halls[0].id);
+        }
+    }, [halls, selectHall]);
 
     const loadHallConfig = (hallId: number) => {
-        dispatch(fetchAllData());
         const selectedHall = halls.find(hall => hall.id === hallId);
 
         if (selectedHall && selectedHall.hall_config) {           
@@ -78,11 +78,6 @@ export function HallConfig() {
 
     const generateHallConfig = () => {
         const { rows, places} = formValue;
-
-        if (!selectHall) {
-            setError('Выберите зал для конфигурации');
-            return;
-        }
 
         if (rows <= 0 || places <= 0) {
             setError('Укажите корректное количество рядов и мест');

@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchHallConfig, setTickets } from "../../store/hallClientConfig.slice";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { fetchAllData } from "../../store/allDataSlice.slice";
 import styles from './HallConfigClient.module.css'
 import Button from "../Button/Button";
 import cn from 'classnames'
 import type { SeatPosition, SeatTypeClient } from "../../interfaces/Hall.interface";
+import { useAppData } from "../../hooks/useAppData";
 
 
 export function HallConfigClient () {
@@ -15,17 +15,15 @@ export function HallConfigClient () {
     const [searchParams] = useSearchParams();
     const [configArray, setConfigArray] = useState<SeatTypeClient[][]>([]);
     const [selectedSeats, setSelectedSeats] = useState<SeatPosition[]>([])
-    const { data, loading: hallsLoading, error: hallsError} = useAppSelector(state => state.allData);
+    const { seances, films, halls, loading: hallsLoading, error: hallsError} = useAppData();
     const { dataHall } = useAppSelector(state => state.hall);
     const seanceId = searchParams.get('seanceId');
     const date = searchParams.get('date');
-    const seance = data?.result.seances.find(s => s.id === Number(seanceId));
-    const film = data?.result.films.find(f => f.id === seance?.seance_filmid);
-    const hall = data?.result.halls.find(h => h.id === seance?.seance_hallid);
+    const seance = seances.find(s => s.id === Number(seanceId));
+    const film = films.find(f => f.id === seance?.seance_filmid);
+    const hall = halls.find(h => h.id === seance?.seance_hallid);
+    const hasFetchedConfig = useRef(false);
 
-    useEffect(() => {
-        dispatch(fetchAllData());
-    }, [dispatch])
 
     useEffect(() => {
         if (dataHall?.result) {
@@ -34,13 +32,13 @@ export function HallConfigClient () {
     }, [dataHall]);
 
     useEffect(() => {       
-        if (seanceId && date && data?.result) {
+        if (seanceId && date && !hasFetchedConfig.current) {
             dispatch(fetchHallConfig({ 
                 seanceId: Number(seanceId), 
                 date: date 
             }));                      
         }
-    }, [seanceId, date, dispatch, data]);
+    }, [seanceId, date, dispatch]);
 
 
     const handleClickSeat = (rowIndex: number, seatIndex: number, seatType: string) => {

@@ -28,7 +28,7 @@ export const DeleteSeance = ({ onSeanceDelete }: DeleteSeanceProps) => {
             ref={drop as any}
             className={`${styles.trashBin} ${isOver ? styles['drag-over'] : ''}`}
         >   
-            <img src="../../../Admin/trash-icon.svg" alt="икнока мусорки" className={styles.icon}/>
+            <img src="../public/Admin/trash-icon.svg" alt="икнока мусорки" className={styles.icon}/>
         </div>
     );
 };

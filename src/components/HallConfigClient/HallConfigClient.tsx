@@ -142,11 +142,7 @@ export function HallConfigClient () {
             </div>
                 
             <div className={styles.hall}>
-<<<<<<< Updated upstream
-                <img src="public\Client\screen.png" alt="картинка экрана" className={styles.screen}/>
-=======
                 <img src="Client/screen.png" alt="картинка экрана" className={styles.screen}/>
->>>>>>> Stashed changes
                 {hallsLoading || !dataHall?.result ? (
                     <div className={styles.loading}>Загрузка схемы зала...</div>
                 ) : hallsError ? (

@@ -13,15 +13,9 @@ export function SectionAdmin ({ children, title }: SectionAdminProps) {
     return <>
         <div className={styles.container}>
             <div className={styles.head} onClick={toggleOpen}>
-<<<<<<< Updated upstream
-                <img src="../public/Admin/circle-icon.svg" alt="иконка круга" className={styles.icon}/>
-                <Headling appearence = 'admin' className={styles.title} >{title}</Headling>
-                <img src="../public/Admin/check_mark-icon.svg" alt="кнопка открытия выпадающего окна" className={cn(styles['check-mark'],
-=======
                 <img src="../Admin/circle-icon.svg" alt="иконка круга" className={styles.icon}/>
                 <Headling appearence = 'admin' className={styles.title} >{title}</Headling>
                 <img src="../Admin/check_mark-icon.svg" alt="кнопка открытия выпадающего окна" className={cn(styles['check-mark'],
->>>>>>> Stashed changes
                     {[styles['check-mark-rotate']]: isOpen
                     })} />
             </div>

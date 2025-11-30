@@ -157,19 +157,11 @@ export function HallConfig() {
     const getSeatIcon = (seatType: SeatType) => {
         switch (seatType) {
             case 'standart':
-<<<<<<< Updated upstream
-                return '../public/Admin/regular-chair-icon.svg';
-            case 'vip':
-                return '../public/Admin/VIP-chair-icon.svg';
-            case 'disabled':
-                return '../public/Admin/disabled-chair-icon.svg';
-=======
                 return '../Admin/regular-chair-icon.svg';
             case 'vip':
                 return '../Admin/VIP-chair-icon.svg';
             case 'disabled':
                 return '../Admin/disabled-chair-icon.svg';
->>>>>>> Stashed changes
         }
     }
 
@@ -211,11 +203,7 @@ export function HallConfig() {
                         <label htmlFor="hall_rows">Рядов, шт</label>
                         <Input id="hall_rows" name="rows" onChange={handleChangeForm} value={formValue.rows} />
                     </div>
-<<<<<<< Updated upstream
-                    <img src="../public/Admin/x-icon.svg" alt="иконка крестика" className={styles.icon} />
-=======
                     <img src="../Admin/x-icon.svg" alt="иконка крестика" className={styles.icon} />
->>>>>>> Stashed changes
                     <div className={styles.field}>
                         <label htmlFor="hall_places">Мест, шт</label>
                         <Input id="hall_places" name="places" value={formValue.places} onChange={handleChangeForm} />
@@ -227,17 +215,6 @@ export function HallConfig() {
                 Теперь вы можете указать типы кресел на схеме зала:
                 <div className={styles.chairs}>
                     <div className={styles.chair}>
-<<<<<<< Updated upstream
-                        <img src="../public/Admin/regular-chair-icon.svg" alt="иконка для обычных кресел" />
-                        <div>&nbsp;— обычные кресла</div>
-                    </div>
-                    <div className={styles.chair}>
-                        <img src="../public/Admin/VIP-chair-icon.svg" alt="иконка для VIP кресел" />
-                        <div>&nbsp;— VIP кресла</div>
-                    </div>
-                    <div className={styles.chair}>
-                        <img src="../public/Admin/disabled-chair-icon.svg" alt="иконка для заблокированных кресел" />
-=======
                         <img src="../Admin/regular-chair-icon.svg" alt="иконка для обычных кресел" />
                         <div>&nbsp;— обычные кресла</div>
                     </div>
@@ -247,7 +224,6 @@ export function HallConfig() {
                     </div>
                     <div className={styles.chair}>
                         <img src="../Admin/disabled-chair-icon.svg" alt="иконка для заблокированных кресел" />
->>>>>>> Stashed changes
                         <div>&nbsp;— заблокированные (нет кресла)</div>
                     </div>
                 </div>

@@ -10,11 +10,7 @@
 
 .container::before {
     content: '';
-<<<<<<< Updated upstream
-    background-image: url('../../../public/Client/circle-top-ticket.png');
-=======
     background-image: url('Client/circle-top-ticket.png');
->>>>>>> Stashed changes
     background-size: 9px;
     position: absolute;
     width: 100%;
@@ -25,11 +21,7 @@
 
 .container::after {
     content: '';
-<<<<<<< Updated upstream
-    background-image: url('../../../public/Client/circle-bot-ticket.png');
-=======
     background-image: url('Client/circle-bot-ticket.png');
->>>>>>> Stashed changes
     background-size: 9px;
     position: absolute;
     width: 100%;
@@ -54,11 +46,7 @@
 
 .header::before {
     content: '';
-<<<<<<< Updated upstream
-    background-image: url('../../../public/Client/circle-top-ticket.png');
-=======
     background-image: url('Client/circle-top-ticket.png');
->>>>>>> Stashed changes
     background-size: 10px;
     position: absolute;
     width: 100%;
@@ -69,11 +57,7 @@
 
 .header::after {
     content: '';
-<<<<<<< Updated upstream
-    background-image: url('../../../public/Client/circle-bot-ticket.png');
-=======
     background-image: url('Client/circle-bot-ticket.png');
->>>>>>> Stashed changes
     background-size: 9px;
     position: absolute;
     width: 100%;

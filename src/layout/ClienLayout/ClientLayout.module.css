@@ -17,7 +17,7 @@
     max-width: 990px;
     width: 100%;
     margin: auto;
-    padding: 0 16px; /* Добавляем отступы по бокам */
+    padding: 0 16px;
     box-sizing: border-box;
 }
 

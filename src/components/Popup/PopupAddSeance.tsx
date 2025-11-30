@@ -53,7 +53,11 @@ export function PopupAddSeance ({ onClose, onSuccessAddLocal, film, hall }: Popu
             <div className={styles.head}>
                 <Headling appearence="admin">Добавление сеанса</Headling>
                 <img 
+<<<<<<< Updated upstream
                     src="../public/Admin/close-icon.svg" 
+=======
+                    src="../Admin/close-icon.svg" 
+>>>>>>> Stashed changes
                     alt="иконка крестика" 
                     className={styles.icon}  
                     onClick={onClose || (() => navigate('/admin/cabinet'))}

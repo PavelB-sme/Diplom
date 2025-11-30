@@ -12,7 +12,6 @@ import { ClientLayout } from './layout/ClienLayout/ClientLayout.tsx';
 import { MainClient } from './pages/MainClient/MainClient.tsx';
 import { HallClient } from './pages/HallClient/HallClient.tsx';
 import { PaymentClient } from './pages/PaymentClient/PaymentClient.tsx';
-import { TicketClient } from './pages/TicketClient/TicketClient.tsx';
 import { NavigationProvider } from './context/NavigationProvider.tsx';
 import { App } from './App.tsx';
 
@@ -33,10 +32,6 @@ const router = createBrowserRouter([
 			path: 'payment',
 			element: <PaymentClient />
 		},
-		{
-			path: 'ticket',
-			element: <TicketClient />
-		}
 	]
 	},
 	{
@@ -58,18 +53,18 @@ const router = createBrowserRouter([
 		element: <Error />
 		}], 
 	{
-		basename: '/Diplom',
+		basename: process.env.NODE_ENV === 'production' ? '/Diplom' : '/',
 	}
 )
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
 		<Provider store={store}>
-			<App>
-				<NavigationProvider>
+			<NavigationProvider>
+				<App>
 					<RouterProvider router={router}/>
-				</NavigationProvider>
-			</App>
+				</App>
+			</NavigationProvider>
 		</Provider>      
 	</StrictMode>,
 )

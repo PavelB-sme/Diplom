@@ -2,6 +2,7 @@ import styles from './Seances.module.css'
 import { NavLink } from 'react-router-dom';
 import { useNavigation } from '../../hooks/useNavigation';
 import { useAppData } from '../../hooks/useAppData';
+import { isAfter, parse } from 'date-fns';
 
 
 export function Seances () {
@@ -50,6 +51,23 @@ export function Seances () {
         }))
     };
 
+    const isSeancePassed = (seanceTime: string, selectedDate: string) => {
+        if (!selectedDate) return false; // Если дата не выбрана, не дизейблим
+        
+        // Создаем объекты Date для сравнения
+        const now = new Date();
+        
+        // Парсим время сеанса и выбранную дату
+        const seanceDateTime = parse(
+            `${selectedDate} ${seanceTime}`, 
+            'yyyy-MM-dd HH:mm', 
+            new Date()
+        );
+        
+        // Проверяем, не прошел ли сеанс
+        return isAfter(now, seanceDateTime);
+    };
+
     return <div className={styles.container}>
         {schedule.map(({ film, seances }) => (
             <div className={styles.film}
@@ -84,7 +102,13 @@ export function Seances () {
                                             ? `/hallconfig?seanceId=${seance.id}&date=${navigationData.date}`
                                             : '/'} key={seance.id} 
                                             className={styles['seance-time']}
-                                        onClick={() => handleHallClickSeance(seance, film)}
+                                        onClick={(e) => {
+                                            if (!navigationData.date || isSeancePassed(seance.seance_time, navigationData.date)) {
+                                                e.preventDefault();
+                                                } else {
+                                                handleHallClickSeance(seance, film);
+                                                }
+                                        }}
                                         >
                                             {seance.seance_time}
                                         </NavLink>

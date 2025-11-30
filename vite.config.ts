@@ -4,6 +4,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 // https://vite.dev/config/
 export default defineConfig({
+<<<<<<< Updated upstream
 	plugins: [react(),
 		viteStaticCopy({
 		targets: [
@@ -19,4 +20,8 @@ export default defineConfig({
 		outDir: 'dist',
 		assetsDir: 'assets'
 	}
+=======
+	plugins: [react()],
+	base: process.env.NODE_ENV === 'production' ? '/Diplom/' : '/',
+>>>>>>> Stashed changes
 })

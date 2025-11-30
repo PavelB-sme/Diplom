@@ -50,7 +50,11 @@ export function PopupCreateHall ({ onClose, onSuccess }: PopupProps) {
     return <div className={styles.popup}>
         <div className={styles.head}>
             <Headling appearence="admin"> Добавление Зала</Headling>
+<<<<<<< Updated upstream
             <img src="../public/Admin/close-icon.svg" alt="иконка крестика" className={styles.icon}  onClick={onClose || (() => navigate('/admin/cabinet'))}/>
+=======
+            <img src="../Admin/close-icon.svg" alt="иконка крестика" className={styles.icon}  onClick={onClose || (() => navigate('/admin/cabinet'))}/>
+>>>>>>> Stashed changes
         </div>       
         <form className={styles.form} onSubmit={submit}>               
             <div className={styles['input-block']}>

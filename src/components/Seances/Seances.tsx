@@ -52,19 +52,15 @@ export function Seances () {
     };
 
     const isSeancePassed = (seanceTime: string, selectedDate: string) => {
-        if (!selectedDate) return false; // Если дата не выбрана, не дизейблим
+        if (!selectedDate) return false;
         
-        // Создаем объекты Date для сравнения
-        const now = new Date();
-        
-        // Парсим время сеанса и выбранную дату
+        const now = new Date();       
         const seanceDateTime = parse(
             `${selectedDate} ${seanceTime}`, 
             'yyyy-MM-dd HH:mm', 
             new Date()
         );
         
-        // Проверяем, не прошел ли сеанс
         return isAfter(now, seanceDateTime);
     };
 
